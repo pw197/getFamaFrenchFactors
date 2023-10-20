@@ -77,7 +77,10 @@ def famaFrench3Factor(frequency='m'):
 
     # Clean annual and monthly versions
     if frequency == 'd':
-        ff3_factors.drop(ff3_factors.index[annual_factor_index_loc[0]:], inplace=True)
+       d_factor_index_loc = ff3_factors[
+            ff3_factors.values == 'Copyright 2023 Kenneth R. French'].index
+       
+        ff3_factors.drop(ff3_factors.index[d_factor_index_loc[0]:], inplace=True)
 
         # Convert dates to pd datetime objects
         ff3_factors['date_ff_factors'] = pd.to_datetime(ff3_factors['date_ff_factors'],
