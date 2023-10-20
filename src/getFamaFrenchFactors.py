@@ -62,7 +62,10 @@ def famaFrench3Factor(frequency='m'):
 
     '''
     rows_to_skip = 3
-    ff3_raw_data = ff3factor_dict['csv_links'][0]
+    freq2idx = {"a":0,"m":0,"w":1,"d":2}
+    fidx = freq2idx[frequency]
+    if frequency=='m'
+    ff3_raw_data = ff3factor_dict['csv_links'][fidx]
 
     ff3_factors = pd.read_csv(ff3_raw_data, skiprows=rows_to_skip)
     ff3_factors.rename(columns = {ff3_factors.columns[0] : 'date_ff_factors'},
@@ -73,6 +76,12 @@ def famaFrench3Factor(frequency='m'):
             ff3_factors.values == ' Annual Factors: January-December '].index
 
     # Clean annual and monthly versions
+    if frequency == 'd':
+        ff3_factors.drop(ff3_factors.index[annual_factor_index_loc[0]:], inplace=True)
+
+        # Convert dates to pd datetime objects
+        ff3_factors['date_ff_factors'] = pd.to_datetime(ff3_factors['date_ff_factors'],
+                                                        format='%Y%m%d')
     if frequency == 'm':
         ff3_factors.drop(ff3_factors.index[annual_factor_index_loc[0]:], inplace=True)
 
